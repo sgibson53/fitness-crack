@@ -20,8 +20,24 @@ app.use(express.static(path.join(__dirname, 'dist')));
 app.use(bodyParser.urlencoded({'extended': 'true'}));
 app.use(bodyParser.json());
 
+// app.get('/setup', function(req, res) {
+//   let seth = new User({
+//     name: 'Seth Gibson',
+//     password: 'password',
+//     admin: true
+//   });
+//   console.log("GET request for /setup")
+
+//   seth.save(function(err) {
+//     if (err) throw err;
+
+//     console.log('Seth saved successfully');
+//     res.json({success: true});
+//   })
+// })
+
 app.get('*', function(req, res) {
-  res.sendfile(path.join(__dirname, 'dist/index.html'));
+  res.sendFile(path.join(__dirname, 'dist/index.html'));
 });
 app.set('port', port);
 
@@ -35,11 +51,55 @@ console.log(`The magic happens at http://localhost:${port}`)
 
 // Mongoose
 const Schema = mongoose.Schema;
-mongoose.model('User', new Schema({
+const User = mongoose.model('User', new Schema({
   name: String,
   password: String,
   admin: Boolean
 }));
+
+
+
+// Routing
+app.post('/authenticate', function(req, res) {
+  User.findOne({
+    name: req.body.name
+  }, function(err, user) {
+
+    if (err) throw err;
+
+    if (!user) {
+      res.json({
+        success: false,
+        message: 'Authentication failed. User not found.'
+      });
+    } else if (user) {
+      if (user.password != req.body.password) {
+        res.json({
+          success: false,
+          message: 'Authentication failed. Wrong password.'
+        });
+      } else {
+        // Create token with only our given payload
+        const payload = {
+          admin: user.admin
+        }
+
+        let token = jwt.sign(payload, app.get('superSecret'), {
+          expiresIn: "1d" // 24 hours
+        });
+  
+        res.json({
+          success: true,
+          message: 'Enjoy your token!',
+          token: token
+        });
+      }
+
+      
+    }
+
+  });
+})
 
 
 
