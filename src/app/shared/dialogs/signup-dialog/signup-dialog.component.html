@@ -1,0 +1,68 @@
+<ol>
+  <h2>Sign Up</h2>
+  <form class="signup-form" [formGroup]="signupForm" novalidate (ngSubmit)="onSubmit()">
+    <mat-form-field>
+      <input 
+        matInput 
+        class="form-control" 
+        placeholder="Email" 
+        formControlName="username">
+    </mat-form-field>
+    <div *ngIf="username.invalid && (username.dirty || username.touched)" class="form-error">
+      <div *ngIf="username.errors.required">
+        Username is required
+      </div>
+      <div *ngIf="username.errors.email">
+        Username must be an email address
+      </div>
+    </div>
+    <mat-form-field>
+      <input 
+      matInput
+      class="form-conrtrol"
+      placeholder="First Name"
+      formControlName="firstName">
+    </mat-form-field>
+    <div class="form-error" *ngIf="firstName.invalid && (firstName.dirty || firstName.touched)">
+      <div *ngIf="firstName.errors.required">First Name is required.</div>
+    </div>
+    <mat-form-field>
+      <input 
+      matInput
+      class="form-conrtrol"
+      placeholder="Last Name"
+      formControlName="lastName">
+    </mat-form-field>
+    <div class="form-error" *ngIf="lastName.invalid && (lastName.dirty || lastName.touched)">
+      <div *ngIf="lastName.errors.required">Last Name is required.</div>
+    </div>
+    <mat-form-field>
+      <input 
+        matInput 
+        class="form-control"
+        placeholder="Password" 
+        type="password" 
+        formControlName="password">
+    </mat-form-field>
+    <div *ngIf="password.invalid && (password.dirty || password.touched)" class="form-error">
+      <div *ngIf="password.errors.required">
+        required
+      </div>
+      <div *ngIf="password.errors.minlength">
+        Password must be at least four characters
+      </div>
+    </div>
+    <mat-form-field>
+      <input 
+        matInput 
+        class="form-control" 
+        placeholder="Confirm Password" 
+        type="password"
+        formControlName="confirmPassword">
+    </mat-form-field>
+    <div *ngIf="confirmPassword.invalid && (confirmPassword.dirty || confirmPassword.touched)" class="form-error">
+      <div class="form-error" *ngIf="signupForm.controls.confirmPassword.errors?.MatchPassword">Passwords do not match</div>
+    </div>
+    <button type="submit"  mat-raised-button color="primary" [disabled]="!signupForm.valid">Sign Up</button>
+  </form>
+</ol>

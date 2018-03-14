@@ -1,1 +1,22 @@
 /* You can add global styles to this file, and also import other style files */
+@import 'reset';
+@import 'variables';
+
+// Angular Material custom theme
+@import '~@angular/material/theming';
+@include mat-core();
+
+$exercise-app-primary: mat-palette($mat-light-blue, 200);
+$exercise-app-accent: mat-palette($mat-teal, A200);
+$exercise-app-warn: mat-palette($mat-orange, 600);
+$exercise-app-theme: mat-light-theme($exercise-app-primary, $exercise-app-accent, $exercise-app-warn);
+@include angular-material-theme($exercise-app-theme);
+
+html, body {
+    height: 100%;
+    box-sizing: border-box;
+
+    * {
+        box-sizing: border-box;
+    }
+}

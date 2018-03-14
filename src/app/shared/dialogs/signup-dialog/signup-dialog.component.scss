@@ -1,0 +1,30 @@
+@import '../../../../variables';
+ol {
+    h2 {
+        font-size: 2em;
+        margin: 10px auto 30px auto;
+        color: hsl(0, 0%, 56%);
+    }
+
+    form {
+        button {
+            color: #f2f2f2;
+
+            &:disabled {
+                color: #8f8f8f;
+            }
+        }
+    }
+}
+
+mat-form-field {
+    display: block;
+    margin: 10px;
+}
+
+.form-error {
+    color: #ee9035;
+    position: relative;
+    top: -15px;
+    margin-left: 10px;
+}
