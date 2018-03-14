@@ -19,6 +19,8 @@ import { LoginDialogComponent } from './shared/dialogs/login-dialog/login-dialog
 
 // Forms
 import { ReactiveFormsModule } from '@angular/forms';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { LoggedInGuard } from './shared/guards/loggedInGuard';
 
 
 
@@ -28,7 +30,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     HeaderComponent,
     SignupDialogComponent,
     HomeComponent,
-    LoginDialogComponent
+    LoginDialogComponent,
+    DashboardComponent
   ],
   imports: [
     BrowserModule,
@@ -41,7 +44,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     MatInputModule,
     AppRoutingModule
   ],
-  providers: [AuthService],
+  providers: [AuthService, LoggedInGuard],
   bootstrap: [AppComponent],
   entryComponents: [
     LoginDialogComponent,
