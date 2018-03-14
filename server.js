@@ -98,7 +98,7 @@ app.post("/api/signup", function(req, res) {
 app.post("/api/authenticate", function(req, res) {
   User.findOne(
     {
-      name: req.body.name
+      name: req.body.username
     },
     function(err, user) {
       if (err) throw err;
@@ -109,15 +109,16 @@ app.post("/api/authenticate", function(req, res) {
           message: "Authentication failed. User not found."
         });
       } else if (user) {
-        bcrypt.compare(password, user.password, function(err, res) {
+        const authRes = res;
+        bcrypt.compare(req.body.password, user.password, function(err, res) {
           if (err) {
-            res.json({
+            authRes.json({
               success: false,
               message: "Authentication failed. Wrong password."
             });
           } else {
             const tokenPayload = createToken(user);
-            res.json(tokenPayload);
+            authRes.json(tokenPayload);
           }
         });
       }
