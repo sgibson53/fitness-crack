@@ -10,11 +10,18 @@ const routes: Routes = [
     component: DashboardComponent,
     canActivate: [LoggedInGuard]
   },
-  { path: '**', component: HomeComponent }
+  {
+    path: 'welcome',
+    component: HomeComponent
+  },
+  {
+    path: '**',
+    redirectTo: 'welcome'
+  }
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }

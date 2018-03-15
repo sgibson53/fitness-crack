@@ -14,7 +14,7 @@ export class AuthService {
 
   login(email: string, password: string) {
     return this.http.post<User>('http://localhost:3000/api/authenticate', {email, password})
-      .do(res => this.setSession)
+      .do(res => this.setSession(res))
       .shareReplay();
   }
 
@@ -26,8 +26,8 @@ export class AuthService {
   }
 
   signup(user: User) {
-    return this.http.post<User>('https://localhost:3000/api/signup', user)
-      .do(res => this.setSession)
+    return this.http.post<User>('http://localhost:3000/api/signup', user)
+      .do(res => this.setSession(res))
       .shareReplay();
   }
 
