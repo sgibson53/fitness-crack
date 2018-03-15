@@ -88,9 +88,7 @@ app.post("/api/signup", function(req, res) {
 
     newUser.save(function(err) {
       if (err) throw err;
-
-      const tokenPayload = createToken(newUser);
-      res.json(tokenPayload);
+      createToken(newUser).then(tokenPayload => res.json(tokenPayload));
     });
   });
 });
@@ -111,8 +109,7 @@ app.post("/api/authenticate", function(req, res) {
         const authRes = res;
         bcrypt.compare(req.body.password, user.password, function(err, res) {
           if (res) {
-            const tokenPayload = createToken(user);
-            authRes.json(tokenPayload);
+            createToken(user).then(tokenPayload => authRes.json(tokenPayload));
           } else {
             authRes.json({
               success: false,
@@ -125,19 +122,13 @@ app.post("/api/authenticate", function(req, res) {
   );
 });
 
-function createToken(user) {
-  const payload = {
-    admin: user.admin
-  };
-
-  let token = jwt.sign(payload, app.get("superSecret"), {
-    expiresIn: "1d" // 24 hours
-  });
-
+async function createToken(user) {
+  const token = jwt.sign(payload, app.get('superSecret'), {expiresIn: '1d'});
   const tokenPayload = {
     success: true,
+    admin: user.admin,
+    expiresIn: 1,
     token: token
   };
-
   return tokenPayload;
 }

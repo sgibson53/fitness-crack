@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import * as moment from 'moment';
+import * as jwt from 'jsonwebtoken';
 
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/shareReplay';
@@ -19,7 +20,7 @@ export class AuthService {
   }
 
   private setSession(authResult) {
-    const expiresAt = moment().add(authResult.expiresIn, 'second');
+    const expiresAt = moment().add(authResult.expiresIn, 'd');
 
     localStorage.setItem('id_token', authResult.idToken);
     localStorage.setItem('expires_at', JSON.stringify(expiresAt.valueOf()));
