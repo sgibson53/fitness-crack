@@ -1,6 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA, MatFormField, MatFormFieldControl } from '@angular/material';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
 import { AuthService } from '../../services/auth.service';
 
@@ -12,12 +13,14 @@ import { AuthService } from '../../services/auth.service';
 export class LoginDialogComponent implements OnInit {
 
   loginForm: FormGroup;
+  public invalidLoginMessage: string;
 
   constructor(
     public dialogRef: MatDialogRef<LoginDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private fb: FormBuilder,
-    private authService: AuthService
+    private authService: AuthService,
+    private router: Router
   ) { }
 
   get username() { return this.loginForm.get('username'); }
@@ -39,8 +42,16 @@ export class LoginDialogComponent implements OnInit {
   }
 
   onSubmit() {
-    this.authService.login(this.loginForm.value.username, this.loginForm.value.password).subscribe(res => console.log(res));
-    this.dialogRef.close();
+    this.authService.login(this.loginForm.value.username, this.loginForm.value.password).subscribe(res => {
+      if (res['success']) {
+        this.invalidLoginMessage = null;
+        this.router.navigate(['/']);
+        this.dialogRef.close();
+      } else {
+        this.invalidLoginMessage = res['message'];
+      }
+    });
+
   }
 
 }

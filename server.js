@@ -98,11 +98,10 @@ app.post("/api/signup", function(req, res) {
 app.post("/api/authenticate", function(req, res) {
   User.findOne(
     {
-      name: req.body.username
+      username: req.body.email
     },
     function(err, user) {
       if (err) throw err;
-
       if (!user) {
         res.json({
           success: false,
@@ -111,14 +110,14 @@ app.post("/api/authenticate", function(req, res) {
       } else if (user) {
         const authRes = res;
         bcrypt.compare(req.body.password, user.password, function(err, res) {
-          if (err) {
+          if (res) {
+            const tokenPayload = createToken(user);
+            authRes.json(tokenPayload);
+          } else {
             authRes.json({
               success: false,
               message: "Authentication failed. Wrong password."
             });
-          } else {
-            const tokenPayload = createToken(user);
-            authRes.json(tokenPayload);
           }
         });
       }

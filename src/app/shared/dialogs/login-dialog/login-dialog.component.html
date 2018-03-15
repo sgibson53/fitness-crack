@@ -1,5 +1,6 @@
 <ol>
   <h2>Login</h2>
+  <div class="invalid-login" *ngIf="invalidLoginMessage">{{invalidLoginMessage}}</div>
   <form class="login-form" [formGroup]="loginForm" novalidate (ngSubmit)="onSubmit()">
     <mat-form-field>
       <input 
