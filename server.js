@@ -123,10 +123,13 @@ app.post("/api/authenticate", function(req, res) {
 });
 
 async function createToken(user) {
+  const payload = {
+    admin: user.admin
+  }
   const token = jwt.sign(payload, app.get('superSecret'), {expiresIn: '1d'});
   const tokenPayload = {
+    ...payload,
     success: true,
-    admin: user.admin,
     expiresIn: 1,
     token: token
   };

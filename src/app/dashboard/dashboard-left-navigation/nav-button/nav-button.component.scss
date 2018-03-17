@@ -1,0 +1,11 @@
+$width: 180px;
+$height: 80px;
+
+button {
+    font-size: 2em;
+    color: rgb(75, 75, 75);
+    margin: 10px;
+    width: $width;
+    height: $height;
+    line-height: 50px;
+}

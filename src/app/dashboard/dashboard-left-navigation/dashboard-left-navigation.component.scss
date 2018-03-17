@@ -1,0 +1,11 @@
+:host {
+    width: 200px;
+    display: flex;
+    flex-direction: column;
+    margin-left: 20px;
+    box-sizing: border-box;
+
+    ul {
+        width: 200px;
+    }
+}

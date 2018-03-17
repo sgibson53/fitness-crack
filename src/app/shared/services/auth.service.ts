@@ -7,11 +7,12 @@ import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/shareReplay';
 
 import { User } from '../models/User';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class AuthService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private router: Router) { }
 
   login(email: string, password: string) {
     return this.http.post('http://localhost:3000/api/authenticate', {email, password})
@@ -35,6 +36,7 @@ export class AuthService {
   logout() {
     localStorage.removeItem('id_token');
     localStorage.removeItem('expires_at');
+    this.router.navigate(['/welcome']);
   }
 
   public isLoggedIn() {
